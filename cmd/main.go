@@ -24,7 +24,6 @@ import (
 // @title           Clima por CEP API
 // @version         1.0
 // @description     Recebe um CEP brasileiro e devolve a temperatura atual em Celsius, Fahrenheit e Kelvin.
-// @host            localhost:8080
 // @BasePath        /
 func main() {
 	slog.SetDefault(slog.New(slog.NewJSONHandler(

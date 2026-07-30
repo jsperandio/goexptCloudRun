@@ -14,7 +14,6 @@ definitions:
       temp_K:
         type: number
     type: object
-host: localhost:8080
 info:
   contact: {}
   description: Recebe um CEP brasileiro e devolve a temperatura atual em Celsius,

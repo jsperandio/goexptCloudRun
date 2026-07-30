@@ -3,6 +3,12 @@
 Serviço em Go que recebe um CEP brasileiro, identifica a cidade e devolve a temperatura atual em
 Celsius, Fahrenheit e Kelvin.
 
+## URL em produção
+
+    https://goexpt-cloud-run-329954409839.us-central1.run.app
+
+    curl -s https://goexpt-cloud-run-329954409839.us-central1.run.app/weather/01001000
+
 ## Endpoint desejado
 
 `GET /weather/{cep}`, com `cep` sempre com 8 dígitos, sem hífen e sem espaço.
@@ -66,8 +72,10 @@ O `.env` precisa ter no mínimo `WEATHER_API_KEY`. Sem ela o container encerra a
 ## Documentação da API
 
 A aplicação usa `swag` para gerar a documentação da API em OpenAPI 2.0 (Swagger). A documentação é
-gerada em `docs/swagger.json` e `docs/swagger.yaml`, e a Swagger UI é servida em http://localhost:8080/ local, ou a URL do Cloud Run): ela redireciona sozinha para a Swagger UI em /docs/index.html, com os dois endpoints
+gerada em `docs/swagger.json` e `docs/swagger.yaml`, e a Swagger UI é servida na raiz (`/`, tanto em
+http://localhost:8080/ local quanto na URL do Cloud Run acima): ela redireciona sozinha para a Swagger
+UI em `/docs/index.html`, com os dois endpoints
 
     GET /weather/{cep}
-    GET /health.
+    GET /health
 
