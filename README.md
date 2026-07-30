@@ -5,7 +5,7 @@ Celsius, Fahrenheit e Kelvin.
 
 ## URL em produção
 
-    https://goexpt-cloud-run-329954409839.us-central1.run.app
+https://goexpt-cloud-run-329954409839.us-central1.run.app
 
     curl -s https://goexpt-cloud-run-329954409839.us-central1.run.app/weather/01001000
 
