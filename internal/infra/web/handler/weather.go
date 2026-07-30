@@ -20,6 +20,16 @@ func NewWeatherHandler(uc *usecase.GetWeatherByZipcodeUseCase) *WeatherHandler {
 	}
 }
 
+// @Summary      Get weather by zipcode
+// @Description  Resolves a Brazilian CEP to its current temperature
+// @Tags         weather
+// @Produce      json
+// @Param        cep  path      string  true  "8-digit CEP"  example(01001000)
+// @Success      200  {object}  handler.WeatherResponse
+// @Failure      422  {object}  handler.ErrorResponse
+// @Failure      404  {object}  handler.ErrorResponse
+// @Failure      500  {object}  handler.ErrorResponse
+// @Router       /weather/{cep} [get]
 func (wh *WeatherHandler) Handle(c *echo.Context) error {
 	in := usecase.GetWeatherByZipcodeInput{
 		Zipcode: c.Param("cep"),

@@ -8,7 +8,11 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/labstack/echo/v5"
+	httpSwagger "github.com/swaggo/http-swagger/v2"
+
 	"github.com/jsperandio/goexptCloudRun/configs"
+	_ "github.com/jsperandio/goexptCloudRun/docs"
 	"github.com/jsperandio/goexptCloudRun/internal/infra/validator"
 	"github.com/jsperandio/goexptCloudRun/internal/infra/viacep"
 	"github.com/jsperandio/goexptCloudRun/internal/infra/weatherapi"
@@ -17,6 +21,11 @@ import (
 	"github.com/jsperandio/goexptCloudRun/internal/usecase"
 )
 
+// @title           Clima por CEP API
+// @version         1.0
+// @description     Recebe um CEP brasileiro e devolve a temperatura atual em Celsius, Fahrenheit e Kelvin.
+// @host            localhost:8080
+// @BasePath        /
 func main() {
 	slog.SetDefault(slog.New(slog.NewJSONHandler(
 		os.Stdout,
@@ -61,6 +70,8 @@ func run() error {
 
 	ws.RegisterRoute(http.MethodGet, handler.RouteWeather, weatherHandler.Handle)
 	ws.RegisterRoute(http.MethodGet, handler.RouteHealth, healthHandler.Handle)
+	ws.RegisterRoute(http.MethodGet, "/docs/*", echo.WrapHandler(httpSwagger.Handler(httpSwagger.URL("/docs/doc.json"))))
+	ws.RegisterRoute(http.MethodGet, "/", echo.WrapHandler(http.RedirectHandler("/docs/index.html", http.StatusFound)))
 
 	slog.Info("starting application")
 
