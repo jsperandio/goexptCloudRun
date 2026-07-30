@@ -1,8 +1,6 @@
 package entity
 
-import "math"
-
-const kelvinOffset = 273
+import "github.com/jsperandio/goexptCloudRun/pkg/float"
 
 type Temperature struct {
 	celsius float64
@@ -15,17 +13,15 @@ func NewTemperatureFromCelsius(c float64) Temperature {
 }
 
 func (tp Temperature) Celsius() float64 {
-	return roundToTwoDecimals(tp.celsius)
+	return float.RoundToTwoDecimals(tp.celsius)
 }
 
+// Celsius para Fahrenheit: F = C × 1.8 + 32
 func (tp Temperature) Fahrenheit() float64 {
-	return roundToTwoDecimals(tp.celsius*1.8 + 32)
+	return float.RoundToTwoDecimals(tp.celsius*1.8 + 32)
 }
 
+// Celsius para Kelvin: K = C + 273
 func (tp Temperature) Kelvin() float64 {
-	return roundToTwoDecimals(tp.celsius + kelvinOffset)
-}
-
-func roundToTwoDecimals(value float64) float64 {
-	return math.Round(value*100) / 100
+	return float.RoundToTwoDecimals(tp.celsius + 273)
 }

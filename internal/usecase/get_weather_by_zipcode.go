@@ -9,11 +9,11 @@ import (
 
 type GetWeatherByZipcodeUseCase struct {
 	finder    entity.LocationFinder
-	provider  entity.WeatherProvider
+	provider  entity.Weather
 	validator entity.Validator
 }
 
-func NewGetWeatherByZipcodeUseCase(lf entity.LocationFinder, wp entity.WeatherProvider, vl entity.Validator) *GetWeatherByZipcodeUseCase {
+func NewGetWeatherByZipcodeUseCase(lf entity.LocationFinder, wp entity.Weather, vl entity.Validator) *GetWeatherByZipcodeUseCase {
 	return &GetWeatherByZipcodeUseCase{
 		finder:    lf,
 		provider:  wp,

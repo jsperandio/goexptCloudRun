@@ -10,18 +10,18 @@ import (
 func StripAccents(value string) string {
 	decomposed := norm.NFD.String(value)
 
-	var stripped strings.Builder
-	stripped.Grow(len(decomposed))
+	var strB strings.Builder
+	strB.Grow(len(decomposed))
 
 	for _, r := range decomposed {
 		if unicode.Is(unicode.Mn, r) {
 			continue
 		}
 
-		stripped.WriteRune(r)
+		strB.WriteRune(r)
 	}
 
-	return stripped.String()
+	return strB.String()
 }
 
 func EqualIgnoringAccents(left, right string) bool {

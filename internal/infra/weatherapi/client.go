@@ -40,7 +40,7 @@ func NewClient(opt *ClientOptions) (*Client, error) {
 
 	return &Client{
 		options: opt,
-		client: httpclient.New(httpclient.Config{
+		client: httpclient.NewClient(httpclient.Config{
 			BaseURL:       opt.BaseURL,
 			Timeout:       opt.Timeout,
 			RetryCount:    opt.RetryCount,
@@ -49,13 +49,13 @@ func NewClient(opt *ClientOptions) (*Client, error) {
 	}, nil
 }
 
-func (cl *Client) CurrentByLocation(ctx context.Context, lc entity.Location) (entity.Temperature, error) {
-	rq := NewRequest(lc)
+func (c *Client) CurrentByLocation(ctx context.Context, lc entity.Location) (entity.Temperature, error) {
+	req := NewRequest(lc)
 
 	var rst Response
-	resp, err := cl.client.R().
+	resp, err := c.client.R().
 		SetContext(ctx).
-		SetQueryParamsFromValues(rq.Query(cl.options.APIKey)).
+		SetQueryParamsFromValues(req.Query(c.options.APIKey)).
 		ForceContentType(httpclient.ContentTypeJSON).
 		SetResult(&rst).
 		SetError(&ErrorResponse{}).
@@ -68,7 +68,7 @@ func (cl *Client) CurrentByLocation(ctx context.Context, lc entity.Location) (en
 		return entity.Temperature{}, statusError(resp)
 	}
 
-	if err := rq.validateResolved(rst.Location); err != nil {
+	if err := req.validateResolved(rst.Location); err != nil {
 		return entity.Temperature{}, err
 	}
 

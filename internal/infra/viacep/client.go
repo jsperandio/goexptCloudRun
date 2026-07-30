@@ -32,7 +32,7 @@ func NewClient(opt *ClientOptions) (*Client, error) {
 
 	return &Client{
 		options: opt,
-		client: httpclient.New(httpclient.Config{
+		client: httpclient.NewClient(httpclient.Config{
 			BaseURL:       opt.BaseURL,
 			Timeout:       opt.Timeout,
 			RetryCount:    opt.RetryCount,

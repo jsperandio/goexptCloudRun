@@ -6,7 +6,7 @@ type LocationFinder interface {
 	FindByZipcode(ctx context.Context, zipcode string) (Location, error)
 }
 
-type WeatherProvider interface {
+type Weather interface {
 	CurrentByLocation(ctx context.Context, lc Location) (Temperature, error)
 }
 

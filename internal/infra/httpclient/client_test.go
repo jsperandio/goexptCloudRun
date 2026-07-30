@@ -11,7 +11,7 @@ import (
 
 func Test_New(t *testing.T) {
 	t.Run("when built, should apply the base url and retry settings", func(t *testing.T) {
-		cl := httpclient.New(httpclient.Config{
+		cl := httpclient.NewClient(httpclient.Config{
 			BaseURL:       "http://localhost:1",
 			Timeout:       2 * time.Second,
 			RetryCount:    3,

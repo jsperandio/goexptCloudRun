@@ -17,7 +17,7 @@ type Config struct {
 	RetryWaitTime time.Duration
 }
 
-func New(cfg Config) *resty.Client {
+func NewClient(cfg Config) *resty.Client {
 	return resty.New().
 		SetBaseURL(cfg.BaseURL).
 		SetTimeout(cfg.Timeout).

@@ -1,6 +1,6 @@
 package httpclient
 
-// nao export a chave no log pq n vai no header
+// nao exporta a chave no log pq n vai no header
 type NoopLogger struct{}
 
 func (nl NoopLogger) Errorf(string, ...any) {}
