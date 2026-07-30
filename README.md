@@ -9,26 +9,6 @@ Celsius, Fahrenheit e Kelvin.
 
     curl -s https://goexpt-cloud-run-329954409839.us-central1.run.app/weather/01001000
 
-## Endpoint desejado
-
-`GET /weather/{cep}`, com `cep` sempre com 8 dígitos, sem hífen e sem espaço.
-
-### Ex:
- Sucesso, 200:
-
-    curl -s localhost:8080/weather/01001000
-    {"temp_C":23.1,"temp_F":73.58,"temp_K":296.1}
-
-CEP com formato inválido, 422:
-
-    curl -s localhost:8080/weather/01001-000
-    {"message":"invalid zipcode"}
-
-CEP bem formado mas inexistente na base, 404:
-
-    curl -s localhost:8080/weather/00000000
-    {"message":"can not find zipcode"}
-
 ## Considerações sobre Kelvin
 
 O enunciado dá a fórmula `K = C + 273`, mas o exemplo de resposta tem um valor diferente do que a fórmula produziria.
@@ -68,6 +48,26 @@ O `.env` precisa ter no mínimo `WEATHER_API_KEY`. Sem ela o container encerra a
 | `VIACEP_TIMEOUT`         | `3s`                               | não         |
 | `VIACEP_RETRY_COUNT`     | `1`                                | não         |
 | `VIACEP_RETRY_WAIT`      | `200ms`                            | não         |
+
+## Endpoint desejado
+
+`GET /weather/{cep}`, com `cep` sempre com 8 dígitos, sem hífen e sem espaço.
+
+### Ex:
+ Sucesso, 200:
+
+    curl -s localhost:8080/weather/01001000
+    {"temp_C":23.1,"temp_F":73.58,"temp_K":296.1}
+
+CEP com formato inválido, 422:
+
+    curl -s localhost:8080/weather/01001-000
+    {"message":"invalid zipcode"}
+
+CEP bem formado mas inexistente na base, 404:
+
+    curl -s localhost:8080/weather/00000000
+    {"message":"can not find zipcode"}
 
 ## Documentação da API
 
