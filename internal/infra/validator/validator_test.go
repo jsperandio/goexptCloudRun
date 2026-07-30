@@ -17,7 +17,7 @@ func Test_Validator_Validate(t *testing.T) {
 			Zipcode: "01001000",
 		}
 
-		assert.NoError(t, New().Validate(payload))
+		assert.NoError(t, NewValidator().Validate(payload))
 	})
 
 	t.Run("when a tag is not satisfied, should return the validation error", func(t *testing.T) {
@@ -27,12 +27,12 @@ func Test_Validator_Validate(t *testing.T) {
 
 		var errs playground.ValidationErrors
 
-		assert.ErrorAs(t, New().Validate(payload), &errs)
+		assert.ErrorAs(t, NewValidator().Validate(payload), &errs)
 	})
 
 	t.Run("when the value is not a struct, should return an invalid validation error", func(t *testing.T) {
 		var invalid *playground.InvalidValidationError
 
-		assert.ErrorAs(t, New().Validate("01001000"), &invalid)
+		assert.ErrorAs(t, NewValidator().Validate("01001000"), &invalid)
 	})
 }

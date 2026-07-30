@@ -8,7 +8,7 @@ type Validator struct {
 	validate *playground.Validate
 }
 
-func New() *Validator {
+func NewValidator() *Validator {
 	return &Validator{
 		validate: playground.New(playground.WithRequiredStructEnabled()),
 	}
