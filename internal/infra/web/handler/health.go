@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo/v5"
 )
 
-const RouteHealth = "/health"
+const RouteHealth string = "/health"
 
 type HealthHandler struct{}
 

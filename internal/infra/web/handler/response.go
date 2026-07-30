@@ -20,7 +20,7 @@ type ErrorResponse struct {
 	Message string `json:"message"`
 }
 
-func newWeatherResponseFromOutput(out usecase.GetWeatherByZipcodeOutput) WeatherResponse {
+func NewWeatherResponseFromOutput(out usecase.GetWeatherByZipcodeOutput) WeatherResponse {
 	return WeatherResponse{
 		TempC: out.TempC,
 		TempF: out.TempF,
@@ -28,7 +28,7 @@ func newWeatherResponseFromOutput(out usecase.GetWeatherByZipcodeOutput) Weather
 	}
 }
 
-func newErrorResponseFromError(err error) (int, ErrorResponse) {
+func NewErrorResponseFromError(err error) (int, ErrorResponse) {
 	switch {
 	case errors.Is(err, entity.ErrInvalidZipcode):
 		return http.StatusUnprocessableEntity, ErrorResponse{

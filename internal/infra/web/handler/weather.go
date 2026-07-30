@@ -8,7 +8,7 @@ import (
 	"github.com/jsperandio/goexptCloudRun/internal/usecase"
 )
 
-const RouteWeather = "/weather/:cep"
+const RouteWeather string = "/weather/:cep"
 
 type WeatherHandler struct {
 	usecase *usecase.GetWeatherByZipcodeUseCase
@@ -30,11 +30,11 @@ func (wh *WeatherHandler) Handle(c *echo.Context) error {
 		return wh.respondError(c, err)
 	}
 
-	return c.JSON(http.StatusOK, newWeatherResponseFromOutput(out))
+	return c.JSON(http.StatusOK, NewWeatherResponseFromOutput(out))
 }
 
 func (wh *WeatherHandler) respondError(c *echo.Context, err error) error {
-	status, payload := newErrorResponseFromError(err)
+	status, payload := NewErrorResponseFromError(err)
 
 	if status == http.StatusInternalServerError {
 		c.Logger().Error("weather request failed", "error", err)
