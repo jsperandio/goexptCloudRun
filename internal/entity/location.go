@@ -1,6 +1,7 @@
 package entity
 
 type Location struct {
-	City  string
-	State string
+	City      string
+	UF        string
+	StateName string
 }
