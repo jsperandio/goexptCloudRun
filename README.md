@@ -1,14 +1,73 @@
 # goexptCloudRun
 
+Serviço em Go que recebe um CEP brasileiro, identifica a cidade e devolve a temperatura atual em
+Celsius, Fahrenheit e Kelvin.
+
+## Endpoint desejado
+
+`GET /weather/{cep}`, com `cep` sempre com 8 dígitos, sem hífen e sem espaço.
+
+### Ex:
+ Sucesso, 200:
+
+    curl -s localhost:8080/weather/01001000
+    {"temp_C":23.1,"temp_F":73.58,"temp_K":296.1}
+
+CEP com formato inválido, 422:
+
+    curl -s localhost:8080/weather/01001-000
+    {"message":"invalid zipcode"}
+
+CEP bem formado mas inexistente na base, 404:
+
+    curl -s localhost:8080/weather/00000000
+    {"message":"can not find zipcode"}
+
+## Considerações sobre Kelvin
+
+O enunciado dá a fórmula `K = C + 273`, mas o exemplo de resposta tem um valor diferente do que a fórmula produziria.
+(`28.5 °C` para `301.65 K`) usa na prática `273.15`. 
+
+Escolhido levar o exemplo erro e fixar na formula apresentada, `C + 273`, então `28.5 °C` sai como `301.5`, não `301.65`.
+
+## Executando com Docker
+
+    docker build -t clima-cep .
+    docker run --rm -p 8080:8080 --env-file .env clima-cep
+
+Ou usando o makefile:
+
+    make docker-build
+    make docker-run
+
+O `.env` precisa ter no mínimo `WEATHER_API_KEY`. Sem ela o container encerra ao subir.
+
+## Rodando os testes
+
+    make test          
+    make test-docker   # dentro de um container sem precisar de Go instalado
+
+## Variáveis de ambiente
+
+| Variável                 | Default                          | Obrigatória |
+| ------------------------ | --------------------------------- | ----------- |
+| `PORT`                   | `8080`                             | não         |
+| `HTTP_GRACEFUL_TIMEOUT`  | `10s`                              | não         |
+| `WEATHER_API_KEY`        |                                    | sim         |
+| `WEATHER_API_BASE_URL`   | `https://api.weatherapi.com/v1`   | não         |
+| `WEATHER_API_TIMEOUT`    | `3s`                               | não         |
+| `WEATHER_API_RETRY_COUNT`| `1`                                | não         |
+| `WEATHER_API_RETRY_WAIT` | `200ms`                            | não         |
+| `VIACEP_BASE_URL`        | `https://viacep.com.br/ws`        | não         |
+| `VIACEP_TIMEOUT`         | `3s`                               | não         |
+| `VIACEP_RETRY_COUNT`     | `1`                                | não         |
+| `VIACEP_RETRY_WAIT`      | `200ms`                            | não         |
+
 ## Documentação da API
 
-Com o servidor no ar, abra a URL base do serviço no navegador (`http://localhost:8080/` local, ou a
-URL do Cloud Run) — ela redireciona sozinha para a Swagger UI em `/docs/index.html`, com os dois
-endpoints (`GET /weather/{cep}` e `GET /health`) documentados.
+A aplicação usa `swag` para gerar a documentação da API em OpenAPI 2.0 (Swagger). A documentação é
+gerada em `docs/swagger.json` e `docs/swagger.yaml`, e a Swagger UI é servida em http://localhost:8080/ local, ou a URL do Cloud Run): ela redireciona sozinha para a Swagger UI em /docs/index.html, com os dois endpoints
 
-As anotações `@Summary`/`@Param`/`@Success`/`@Router` em `cmd/main.go` e nos handlers de
-`internal/infra/web/handler/` são uma exceção deliberada à convenção de "sem comentários no
-código": elas não explicam o código, são o metadado estrutural que a ferramenta `swag` lê para
-gerar a spec. Depois de mudar uma anotação, regenere os arquivos em `docs/` com:
+    GET /weather/{cep}
+    GET /health.
 
-    make swagger
