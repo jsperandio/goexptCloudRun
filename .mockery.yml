@@ -1,0 +1,11 @@
+template: testify
+formatter: goimports
+dir: "{{.InterfaceDir}}/mocks"
+pkgname: mocks
+structname: "{{.InterfaceName}}"
+filename: "{{.InterfaceName | snakecase}}.go"
+packages:
+  github.com/jsperandio/goexptCloudRun/internal/entity:
+    interfaces:
+      LocationFinder:
+      WeatherProvider:

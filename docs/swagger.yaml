@@ -1,0 +1,68 @@
+basePath: /
+definitions:
+  handler.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  handler.WeatherResponse:
+    properties:
+      temp_C:
+        type: number
+      temp_F:
+        type: number
+      temp_K:
+        type: number
+    type: object
+info:
+  contact: {}
+  description: Recebe um CEP brasileiro e devolve a temperatura atual em Celsius,
+    Fahrenheit e Kelvin.
+  title: Clima por CEP API
+  version: "1.0"
+paths:
+  /health:
+    get:
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: Health check
+      tags:
+      - health
+  /weather/{cep}:
+    get:
+      description: Resolves a Brazilian CEP to its current temperature
+      parameters:
+      - description: 8-digit CEP
+        example: "01001000"
+        in: path
+        name: cep
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.WeatherResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get weather by zipcode
+      tags:
+      - weather
+swagger: "2.0"
